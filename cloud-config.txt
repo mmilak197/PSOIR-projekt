@@ -1,0 +1,24 @@
+#cloud-config
+write_files:
+  - path: /usr/bin/.s3cfg
+    permissions: 0777
+    owner: root:root
+    content: |
+      [default]
+      access_key =
+      secret_key =
+      security_token =
+apt_upgrade: true
+packages:
+ - nodejs
+ - npm
+ - git
+ - s3cmd
+runcmd:
+ - [ ln, -s, /usr/bin/nodejs, /usr/bin/node ]
+ - [ npm, install, -g, forever ]
+ - [ s3cmd, --config, /usr/bin/.s3cfg, sync, "s3://deploy-weeia/milak", /usr/bin/milak ]
+ - [ cd, /usr/bin/milak]
+ - [ npm, install ]
+ - [ AWS_REGION="us-west-2", forever, /usr/bin/milak/app.js ]
+ - [ node, app.js ]
