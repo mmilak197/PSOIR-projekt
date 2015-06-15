@@ -1,0 +1,8 @@
+{	"expiration" : {"day":1},
+	"conditions": [ ["starts-with", "$key", "mateusz.milak/toProcess"],
+    				 {"bucket": "lab4-weeia"}, 
+    				 {"acl": "public-read"},
+    				 {"success_action_redirect": "http://127.0.0.1:8080/list"},
+    				 ["content-length-range", 0, 1048576]
+    				]   
+}
