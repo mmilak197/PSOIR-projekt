@@ -12,13 +12,18 @@ exports.action = function(request, callback) {
 	var policyData = helpers.readJSONFile(POLICY_FILE);
 	var policy = new Policy(policyData);
 	var s3Form = new S3Form(policy);
-	var fields = s3Form.generateS3FormFields();
+	
 	var awsConfig  = new AWS.EC2MetadataCredentials();
 	awsConfig.refresh(function(err){
 		if(err){
 			AWS.config.loadFromPath(configFilePath);
 			awsConfig = helpers.readJSONFile(configFilePath);								
 		}
-		callback(null, {template: template, params:{fields:s3Form.addS3CredientalsFields(fields, awsConfig) , bucket:"lab4-weeia"}});
+		
+		helpers.getCurrentIP(function(ip){
+			console.log("Aktualna domena: "+ip);
+			var fields = s3Form.generateS3FormFields(ip);
+			callback(null, {template: template, params:{fields:s3Form.addS3CredientalsFields(fields, awsConfig, ip) , bucket:"lab4-weeia"}});
+		});
 	});
 }

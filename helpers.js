@@ -81,8 +81,9 @@ var hmac = function(algorithm, key, text, encoding) {
 	return hmac.update(new Buffer(text)).digest(encoding);
 }
 
-var encode = function(obj, encoding) {
+var encode = function(obj, encoding, templateFunction) {
 	var stringifyObj = JSON.stringify(obj);	
+	stringifyObj = templateFunction(stringifyObj);
 	return new Buffer(stringifyObj).toString(encoding);
 }
 
@@ -97,8 +98,22 @@ var readJSONFile = function(fileName){
 	return object;	  	
 }
 
+var getCurrentIP = function (callbackFunction){
+	var sys = require('sys')
+	var exec = require('child_process').exec;
+	child = exec("ec2metadata --public-hostname", function (error, stdout, stderr) {
+	  if (error !== null) {
+	    callbackFunction("http://127.0.0.1");
+	    return;
+	  }
+	  callbackFunction(stdout);
+	  return;
+	});
+}
+
 exports.calculateDigest = calculateDigest; //= function(algorithm, text, encoding) e.g. calculateMultiDigest("md5", "some text", "hex")
 exports.calculateMultiDigest = calculateMultiDigest; //= function(doc, algorithms, callback, loopCount)
 exports.hmac = hmac; // = function(algorithm, key, text, encoding) 
 exports.encode = encode; //encode = function(obj, encoding)
 exports.readJSONFile = readJSONFile; // = function(fileName)
+exports.getCurrentIP = getCurrentIP; // = function()

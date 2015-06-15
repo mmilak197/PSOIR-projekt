@@ -47,7 +47,7 @@ var S3Form = function(policy){
 S3Form.prototype.generateS3FormFields = function(ip) {
 	var conditions =this.policy.getConditions();
 	var formFields = [];
-	ip = "127.0.0.1";
+	
 	conditions.forEach(function(elem){
 		if(Array.isArray(elem)){
 			if(elem[1] === "$key")
@@ -56,7 +56,7 @@ S3Form.prototype.generateS3FormFields = function(ip) {
 
 			var key = Object.keys(elem)[0];
 			var value = elem[key];
-			if(key === "x-amz-meta-ip" || key === 'success_action_redirect') 
+			if(key === 'success_action_redirect') 
 				formFields.push(hiddenField(key, value.replace("$ip",ip)));
 			else if(key !== "bucket")
 			 	formFields.push(hiddenField(key, value));
@@ -69,7 +69,7 @@ S3Form.prototype.generateS3FormFields = function(ip) {
 
 
 S3Form.prototype.addS3CredientalsFields = function(fields, awsConfig, ip){	
-	ip = "127.0.0.1";
+	
 	fields.push(hiddenField(
 		ACCESS_KEY_FIELD_NAME, awsConfig.accessKeyId));
 

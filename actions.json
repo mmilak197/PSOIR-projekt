@@ -1,3 +1,5 @@
 [
-	{"path":"/","action":{"index"}
+	{"path":"/","action":"index"},
+	{"path":"/listall", "action":"listall"},
+	{"path":"/sendtoqueue", "action":"sendtoqueue"}
 ]
