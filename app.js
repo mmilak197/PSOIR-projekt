@@ -1,15 +1,23 @@
 var http = require('http');
+var PORT = 8080;
+var helpers = require("./helpers");
+var ACTIONS_CONFIG_FILE = "actions.json";
+var ACTIONS_FOLDER = "./actions/";
+var actionsCofig = helpers.readJSONFile(ACTIONS_CONFIG_FILE);
 
-// Configure our HTTP server to respond with Hello World to all requests.
-var server = http.createServer(function (request, response) {
-  response.writeHead(200, {"Content-Type": "text/plain"});
-  response.end("Hello World\n");
+
+actionsCofig.forEach(function(elem){
+	if(elem.action && elem.path){
+		if(!elem.action.template){
+			elem.action = require(ACTIONS_FOLDER + elem.action).action;
+		}
+	}else {
+		console.log("unknown configuration: " + JSON.stringify(elem));
+	}
 });
 
-// Listen on port 8000, IP defaults to 127.0.0.1
-server.listen(8000);
+var service = require("webs-weeia").http(actionsCofig);
 
-// Put a friendly message on the terminal
-console.log("Server running at http://127.0.0.1:8000/");
+service(PORT);
 
-//ss
+console.log("Server uruchomiony na porcie: "+PORT);
