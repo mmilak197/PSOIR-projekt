@@ -1,5 +1,8 @@
 [
-	{"path":"/","action":"index"},
+	{"path": "/digestForm", "action":{"template":"digestForm.ejs", "params":[]} },
+	{"path":"/","action":"createform"},	
+	{"path":"/success","action":"success"},
 	{"path":"/listall", "action":"listall"},
 	{"path":"/sendtoqueue", "action":"sendtoqueue"}
+
 ]

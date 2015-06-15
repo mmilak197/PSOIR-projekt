@@ -17,6 +17,7 @@ exports.action = function(request, callback) {
 			awsConfig = helpers.readJSONFile(configFilePath);								
 		}
 		var keys = request.query.keys;
+		keys = Array.isArray(keys)?keys:[keys];
 		keys.forEach(function(key){
 			var queue = new Queue(new AWS.SQS(), appConfig.QueueUrl);
 			queue.sendMessage(key, function(err, data){

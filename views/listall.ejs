@@ -35,8 +35,7 @@
 </head>
 
 <body>
-
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -45,26 +44,41 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Wgraj nowy plik</a>
+				<ul class="nav navbar-nav">
+                    <li>
+                       <a href="/">Dodaj nowy</a>
+                    </li>
+                </ul>
+                
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="/list">Lista plików</a>
+                        <a href="/listall">Lista wrzuconych plikow</a>
+                    </li>
+					<li>
+                        <a href="/sendtoqueue">Kolejka</a>
                     </li>
                 </ul>
             </div>
         </div>
-    </nav>
+    </nav> 
 
     <div class="container">
 
+			<div class="container">
+	    		<center><h2 class="panel-title">Dodawanie pliku na s3</h2></center>
+	    		</div>
+				
+				</br>
+		  	
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
+			
                 <form action="/send" method="GET">
                     <table class="table table-hover">
                       <tr>
-                        <th>Wybierz</th>
+                        <th>Zaznacz</th>
                         <th>Nazwa</th>
                       </tr>
                     <% elements.forEach(function(elem){ %>
@@ -82,7 +96,9 @@
 
                     <%}); %> 
                     </table>
-                    <input type="submit" name="Konwertuj" class="btn btn-block btn-info">
+					<div>
+					<input type="submit" class="btn  btn-primary btn-block" value="Wyślij do przetworzenia"/>
+					</div>
                 </form>
             </div>
         </div>

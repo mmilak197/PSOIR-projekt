@@ -1,31 +1,19 @@
 {
-  "name": "PSOIR-projekt",
-  "version": "1.0.0",
+  "name": "awslab4",
+  "version": "0.0.1",
   "description": "",
   "main": "app.js",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
-    "test": "mocha"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mmilak197/PSOIR-projekt.git"
-  },
-  "author": "",
+  "author": "Radek Adamus <adamusr@gmail.com> (https://github.com/radamus/)",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mmilak197/PSOIR-projekt/issues"
-  },
-  "homepage": "https://github.com/mmilak197/PSOIR-projekt",
-  
-  "dependencies" : {
+  "dependencies": {
     "webs-weeia": "0.0.2",
-    "queuemanager": "^0.2.6",
-    "async": "^0.2.10",
-    "aws-sdk": "^2.1.20",
     "ejs": "^1.0.0",
-	"moment": "^2.5.1"
+    "moment": "^2.5.1",
+    "async": "^0.2.10",
+    "aws-sdk": "^2.0.0-rc13",
+	"queuemanager": "^0.2.6"
   }
 }

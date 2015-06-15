@@ -1,10 +1,11 @@
-var http = require('http');
-var PORT = 8080;
 var helpers = require("./helpers");
-var ACTIONS_CONFIG_FILE = "actions.json";
 var ACTIONS_FOLDER = "./actions/";
-var actionsCofig = helpers.readJSONFile(ACTIONS_CONFIG_FILE);
+var ACTIONS_CONFIG_FILE = "actions.json";
+var PORT = 8080;
 
+
+
+var actionsCofig = helpers.readJSONFile(ACTIONS_CONFIG_FILE);
 
 actionsCofig.forEach(function(elem){
 	if(elem.action && elem.path){
@@ -16,8 +17,14 @@ actionsCofig.forEach(function(elem){
 	}
 });
 
+
 var service = require("webs-weeia").http(actionsCofig);
 
 service(PORT);
 
-console.log("Server uruchomiony na porcie: "+PORT);
+
+
+
+
+
+

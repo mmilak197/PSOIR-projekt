@@ -1,8 +1,10 @@
 {	"expiration" : {"day":1},
-	"conditions": [ ["starts-with", "$key", "mateusz.milak/toProcess"],
+	"conditions": [ ["starts-with", "$key", "mateusz.milak/"],
     				 {"bucket": "lab4-weeia"}, 
-    				 {"acl": "public-read"},
-    				 {"success_action_redirect": "$ip:8080/listall"},
+					 {"x-amz-meta-name": "Mateusz Milak"},
+					 {"x-amz-meta-computer": "localhost"},
+    				 {"acl": "private"},
+    				 {"success_action_redirect": "http://localhost:8080/listall"},   
     				 ["content-length-range", 0, 1048576]
     				]   
 }

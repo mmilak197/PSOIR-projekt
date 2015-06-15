@@ -9,20 +9,19 @@ var SIGNATURE_FIELD_NAME = "signature";
 var Policy = function(policyData){
 	this.policy = policyData;	
 	this.policy.expiration = moment().add(policyData.expiration).toJSON();
+	console.log("policyData " + util.inspect(policyData, false, null));	
 }
 
-Policy.prototype.generateEncodedPolicyDocument = function(ip){
-	return helpers.encode(this.policy, 'base64', function(string){
-		return string.split('$ip').join(ip);
-	});		
+Policy.prototype.generateEncodedPolicyDocument = function(){
+	return helpers.encode(this.policy, 'base64');		
 }
 
 Policy.prototype.getConditions = function(){
 	return this.policy.conditions;
 }
 
-Policy.prototype.generateSignature = function(secretAccessKey, ip){
-	return helpers.hmac("sha1", secretAccessKey, this.generateEncodedPolicyDocument(ip), 'base64');	
+Policy.prototype.generateSignature = function(secretAccessKey){
+	return helpers.hmac("sha1", secretAccessKey, this.generateEncodedPolicyDocument(), 'base64');	
 }
 
 Policy.prototype.getConditionValueByKey = function(key){
@@ -44,10 +43,11 @@ var S3Form = function(policy){
 	
 }
 
-S3Form.prototype.generateS3FormFields = function(ip) {
+S3Form.prototype.generateS3FormFields = function() {
 	var conditions =this.policy.getConditions();
-	var formFields = [];
 	
+	var formFields = [];
+
 	conditions.forEach(function(elem){
 		if(Array.isArray(elem)){
 			if(elem[1] === "$key")
@@ -56,9 +56,7 @@ S3Form.prototype.generateS3FormFields = function(ip) {
 
 			var key = Object.keys(elem)[0];
 			var value = elem[key];
-			if(key === 'success_action_redirect') 
-				formFields.push(hiddenField(key, value.replace("$ip",ip)));
-			else if(key !== "bucket")
+			if(key !== "bucket")
 			 	formFields.push(hiddenField(key, value));
 		}	
 	});
@@ -68,16 +66,15 @@ S3Form.prototype.generateS3FormFields = function(ip) {
 
 
 
-S3Form.prototype.addS3CredientalsFields = function(fields, awsConfig, ip){	
-	
+S3Form.prototype.addS3CredientalsFields = function(fields, awsConfig){	
 	fields.push(hiddenField(
 		ACCESS_KEY_FIELD_NAME, awsConfig.accessKeyId));
 
 	fields.push(hiddenField(
-		POLICY_FIELD_NAME, this.policy.generateEncodedPolicyDocument(ip)));
-	fields.push(hiddenField(
-		SIGNATURE_FIELD_NAME, this.policy.generateSignature(awsConfig.secretAccessKey, ip)));
+		POLICY_FIELD_NAME, this.policy.generateEncodedPolicyDocument()));
 
+	fields.push(hiddenField(
+		SIGNATURE_FIELD_NAME, this.policy.generateSignature(awsConfig.secretAccessKey)));
 	return fields;
 }
 
@@ -92,3 +89,5 @@ var hiddenField = function(fieldName, value) {
 
 exports.Policy = Policy; // usage: policy = new Policy(policyData);
 exports.S3Form = S3Form; // usage: s3Form = new S3Form(awsConfig, policy);
+
+
