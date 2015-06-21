@@ -2,7 +2,10 @@ var helpers = require("../helpers");
 var template = "listall.ejs";
 var AWS = require("aws-sdk");
 var configFilePath = "config.json";
+AWS.config.loadFromPath('./config.json');
 var prefix = "mateusz.milak";
+
+var simpledb = new AWS.SimpleDB();
 
 var removeRoot = function(arr){
 	var newArr = [];
@@ -31,6 +34,32 @@ exports.action = function(request, callback) {
 		  if(request.query.key)
 		  	var uploaded = request.query.key;
 		  callback(null, {template: template, params:{elements:removeRoot(data.Contents), uploaded: uploaded, prefix:prefix}});
+		});
+		
+		//POPRAWNE tworzenie bazy danych
+		var paramsXXX = {DomainName: 'mateusz.milak.simpledb'};
+		simpledb.createDomain(paramsXXX, function(err, data) {
+			if (err)
+			{
+				console.log(err, err.stack); 
+				console.log('Blad utworzenie bazy simpledb !!!');
+			}				
+			else 
+			{
+				console.log(data);  
+				console.log("Poprawnie utworzona baza simpledb !!!");
+			}				
+		});
+		
+		
+		
+		
+		
+		//Lista domen
+		var paramsXX = {};
+		simpledb.listDomains(paramsXX, function(err, data) {
+		  if (err) console.log(err, err.stack); // an error occurred
+		  else     console.log(data);           // successful response
 		});
 
 	});
