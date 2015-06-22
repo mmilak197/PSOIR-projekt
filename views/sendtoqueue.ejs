@@ -64,23 +64,23 @@
     <div class="container">
 
         <div class="row">
-            <div class="col-md-6 col-md-offset-3">
+            <div>
               <div class="panel panel-default">
                   <div class="panel-heading">Wynik operacji</div>
                   <div class="panel-body">
                     <%if(log) {%>
-                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Log do bazy danych
+                        Log do bazy danych - POBRANO :)
                     <%} else {%>
-                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Log do bazy danych
+                        Log do bazy danych - NIE POBRANO	
                     <%}%>
                     <br>
                     <%if(send) {%>
-                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Dodano do kolejki
+                       Dodano do kolejki - OK :)
                     <%} else {%>
-                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Dodano do kolejki
+                       Dodano do kolejki - NIE OK
                     <%}%>
                     <br><br>
-                    Wynik dotyczy:<br>
+                    Modyfikowane pliki:<br>
                     <% keys.forEach(function(key){ %>
 
                         <%= key.replace(prefix+"/", "")  %><br>
